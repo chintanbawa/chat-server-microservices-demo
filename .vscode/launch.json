@@ -31,6 +31,20 @@
       "skipFiles": [
         "<node_internals>/**"
       ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Notificaiton Service",
+      "cwd": "${workspaceRoot}/notification-service",
+      "runtimeExecutable": "${workspaceFolder}/notification-service/node_modules/nodemon/bin/nodemon.js",
+      "program": "${workspaceFolder}/notification-service/src/server.ts",
+      "restart": true,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
     }
   ]
 }
