@@ -60,5 +60,11 @@
         "<node_internals>/**"
       ]
     }
+  ],
+  "compounds": [
+    {
+      "name": "Lauch MicroServices",
+      "configurations": ["Debug User Service", "Debug Chat Service", "Debug Notificaiton Service", "Debug Chat Server"]
+    }
   ]
 }
