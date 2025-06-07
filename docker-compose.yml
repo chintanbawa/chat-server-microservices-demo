@@ -1,0 +1,69 @@
+services:
+  mongodb:
+    image: mongo:latest
+    restart: unless-stopped    
+    ports:
+      - "27017:27017"
+    networks:
+      - my-network
+    volumes:
+      - mongo-data:/data/db 
+
+  user:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    networks:
+      - my-network
+    restart: always
+    depends_on:
+      - "mongodb"  
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongodb:27017/chat-server  
+
+  chat:
+    build:
+      context: ./chat-service
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    networks:
+      - my-network      
+    depends_on:
+      - "mongodb"
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongodb:27017/chat-server 
+
+  notification:
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    networks:
+      - my-network  
+    depends_on:
+      - "mongodb"
+    environment:
+      - NODE_ENV=production      
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "8080:85"
+    networks:
+      - my-network       
+    depends_on:
+      - user
+      - chat
+      - notification
+
+volumes:
+  mongo-data:
+networks:
+  my-network:
